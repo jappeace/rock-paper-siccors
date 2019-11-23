@@ -2,6 +2,7 @@
 pkgs.mkShell{
     buildInputs = [
         pkgs.leiningen
+        pkgs.ngrok
     ];
 }
 
