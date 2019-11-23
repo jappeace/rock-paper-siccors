@@ -1,22 +1,18 @@
-# rock-paper-siccors
+[![https://jappieklooster.nl](https://img.shields.io/badge/blog-jappieklooster.nl-lightgrey?style=for-the-badge)](https://jappieklooster.nl/tag/haskell.html)
+[![Jappiejappie](https://img.shields.io/badge/twitch.tv-jappiejappie-purple?logo=twitch&style=for-the-badge)](https://www.twitch.tv/jappiejappie)
+[![Jappiejappie](https://img.shields.io/badge/youtube-jappieklooster-red?logo=youtube&style=for-the-badge)](https://www.youtube.com/channel/UCQxmXSQEYyCeBC6urMWRPVw)
 
-A Clojure library designed to ... well, that part is up to you.
+This is a bot that will play rock paper siccors
+games according to this [protocol](https://app.swaggerhub.com/apis/Szetty/BotServer/1.0.0#/).
+
+It was built on saturday exploration day for jappie
+his streams where the clojure langauge was being explored
+. In line with showing off some game theory.
 
 ## Usage
 
-FIXME
+C-c in emacs on functions appears to do things
 
 ## License
 
-Copyright © 2019 FIXME
-
-This program and the accompanying materials are made available under the
-terms of the Eclipse Public License 2.0 which is available at
-http://www.eclipse.org/legal/epl-2.0.
-
-This Source Code may also be made available under the following Secondary
-Licenses when the conditions for such availability set forth in the Eclipse
-Public License, v. 2.0 are satisfied: GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or (at your
-option) any later version, with the GNU Classpath Exception which is available
-at https://www.gnu.org/software/classpath/license.html.
+MIT: Do whatever the fuck you want just don't blame me.
