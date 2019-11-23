@@ -9,7 +9,12 @@ It was built on saturday exploration day for jappie
 his streams where the clojure langauge was being explored
 . In line with showing off some game theory.
 
+This is a work in progress.
+I at least want to implement ficticious play and finish up beat last.
+
 ## Usage
+Nix shell will pull in lein in whatever version I used.
+It also makes ngork available.
 
 C-c in emacs on functions appears to do things
 
