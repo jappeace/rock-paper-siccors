@@ -12,10 +12,9 @@
 ;; Optional: If we get any error or gamefinshed, exit
 (def ids (atom nil)) ;; for storing the gameid and playerid
 (def settings {:player-name "jappiejappie2"
-               :connection "gehrman"
-               :calback-uri "https://1c7d2634.ngrok.io"})
+               :connection "cmondude"
+               :calback-uri "https://94b69ff7.ngrok.io"})
 (def options #{:rock :paper :scissors})
-
 
 (defn always-rock [roundnr, lastmove] ;; Gauranteed winning, rock beats everyone
   {:curplay :paper, ;; got you sour!
@@ -26,22 +25,27 @@
 
 (defn beat-last [roundnr, lastmove] ;; Gauranteed winning, rock beats everyone
   (if lastmove
-  (let [{:keys [player-name]} settings
-        lastplayed (:value (vals (dissoc lastmove player-name)))
-        ]
-  {:curplay (get {"paper" :scissors, ;; TODO use keywords in maps causeof symetry
-            "rock" :paper,
-            "scissors" :rock
-            } lastplayed),
-   :nextstrat beat-last})
-  (do
-    (println "not playing beat-last")
-    (always-rock roundnr lastmove) ;; TODO nextrat problamaitc like this
-  ))
+    (do
+      (println "playing beat-last" roundnr lastmove)
+      (let [{:keys [player-name]} settings
+            otherplayer (vals (dissoc lastmove (keyword player-name)))
+            lastplayed (:value (first otherplayer))
+            ]
+        (println (str lastplayed otherplayer))
+        {:curplay (get {"paper" :scissors, ;; TODO use keywords in maps causeof symetry
+                        "rock" :paper,
+                        "scissors" :rock
+                        } lastplayed),
+         :nextstrat beat-last}))
+    (do
+      (println "not playing beat-last")
+      (always-rock roundnr lastmove) ;; TODO nextrat problamaitc like this
+      ))
   )
 
 (defn post [endpoint body]
   (do
+    (println "enter the post")
     (println (str endpoint body))
     (client/post (str "http://go-bot-server.herokuapp.com/" endpoint)
                  {:form-params  body
@@ -51,8 +55,6 @@
   (let [{:keys [gameId
                 player]} @ids
         stratResult (strat nextRound lastmove)]
-    (println "sleeping")
-    (Thread/sleep 3000)
     (post "play" {:gameId gameId
                   :playerId (:id player)
                   :round	nextRound
@@ -60,30 +62,40 @@
                   })))
 
 (defn handler [request]
-  (println request)
-  (if (not= (:content-type request) "application/json")
-    {:status 200
-     :headers {"Content-Type" "text/plain"}
-     :body (str "Rejecting invalid request" request)}
-    (do
-      (let
-       [son
-        (json/parse-string (slurp (:body request) :encoding "UTF-8") true)
-        inner (:nextRound son)
-        next-round (or inner (-> son :body :nextRound))
-        moves (-> son :body :roundResult :moves)
-        ]
-        (println (str "printing json" son))
-        (if (#{"startGame" "roundFinished"} (:type son))
+  (try
+    (do (println request)
+        (if (not= (:content-type request) "application/json")
           (do
-            (println (str "playing a move" next-round))
-            (play-move next-round moves beat-last))
-          nil)
-        (do
-          printLn 
-        {:status 200
-         :headers {"Content-Type" "text/plain"}
-         :body "Parsing result"})))))
+            (println (str "invalid request" request))
+            {:status 200
+             :headers {"Content-Type" "text/plain"}
+             :body (str "Rejecting invalid request" request)})
+          (let
+              [son
+               (json/parse-string (slurp (:body request) :encoding "UTF-8") true)
+               inner (:nextRound son)
+               next-round (or inner (-> son :body :nextRound))
+               moves (-> son :body :roundResult :moves)
+               ]
+            (println (str "printing json" son))
+            (if (#{"startGame" "roundFinished"} (:type son))
+              (do
+                (if (= "roundFinished" (:type son))
+                  (do (println "sleeping ~~~")
+                      )
+                  )
+                (println (str "playing a move" next-round))
+                (play-move next-round moves beat-last))
+              )
+            (do
+              println 
+              {:status 200
+               :headers {"Content-Type" "text/plain"}
+               :body "Success ~"}))))
+    (catch Exception e (do
+                         (clojure.stacktrace/print-stack-trace e)
+                         (println (str "caught exception: " e)))))
+  )
 
 (jet/run-jetty #'handler {:port 6969 :join? false})
 
