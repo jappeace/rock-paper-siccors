@@ -12,7 +12,7 @@
 ;; Optional: If we get any error or gamefinshed, exit
 (def ids (atom nil)) ;; for storing the gameid and playerid
 (def settings {:player-name "jappiejappie2"
-               :connection "cmondude"
+               :connection "oioi"
                :calback-uri "https://94b69ff7.ngrok.io"})
 (def options #{:rock :paper :scissors})
 
@@ -22,6 +22,37 @@
 (defn random [roundnr, lastmove] ;; Gauranteed winning, rock beats everyone
   {:curplay (rand-nth (seq options)), 
    :nextstrat random})
+
+
+(defn playAgainst [model]
+  (let [ choice (rand)]
+    (if choice <= (:paper model)
+        (:siccors)
+        (let [nextChoice (- choice (:paper model))]
+          (if nextChoice  <= (:rock model))
+          (:paper)
+          (:rock)
+          )
+        )
+    )
+  )
+
+(defn mkModel [prevmodel, roundnr, lastmove]
+  )
+
+(defn ficiticousPlay [prevmodel, roundnr, lastmove]
+  (let [model (mkModel prevmodel roundnr lastmove
+                       )]
+
+    )
+  (if lastmove
+    ()
+    {:curplay (:curplay (always-rock roundnr lastmove)
+                        :nextstrat beat-last
+                        }
+     )
+    )
+  )
 
 (defn beat-last [roundnr, lastmove] ;; Gauranteed winning, rock beats everyone
   (if lastmove
@@ -39,7 +70,9 @@
          :nextstrat beat-last}))
     (do
       (println "not playing beat-last")
-      (always-rock roundnr lastmove) ;; TODO nextrat problamaitc like this
+      {:curplay (:curplay (always-rock roundnr lastmove)
+       :nextstrat beat-last
+                          }
       ))
   )
 
