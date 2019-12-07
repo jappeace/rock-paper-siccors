@@ -11,10 +11,10 @@
 ;; 4. Whenver we get a stargame play a move
 ;; Optional: If we get any error or gamefinshed, exit
 (def ids (atom nil)) ;; for storing the gameid and playerid
-(def settings {:player-name "jappie-68"
-               :connection "japjap"
-               :port 6968
-               :calback-uri "https://92f75bfd.ngrok.io"})
+(def settings {:player-name "jappie-69"
+               :connection "japjap-5"
+               :port 6969
+               :calback-uri "https://1183fb35.ngrok.io"})
 (def options #{:rock :paper :scissors})
 
 (defn always-rock [roundnr, lastmove] ;; Gauranteed winning, rock beats everyone
@@ -28,7 +28,7 @@
 (defn playAgainst [model]
   (let [ choice (rand)]
     (if (<= choice (:paper model))
-      :sciccors
+      :scissors
       (let [nextChoice (- choice (:paper model))]
         (if (<= nextChoice (:rock model))
           :paper
@@ -44,13 +44,6 @@
               ) updatePlayed others)
     ))
 
-(defn ficticious-play [prevmodel, roundnr, lastmove]
-  (let [ lastplayed (keyword (other-player-move lastmove))
-        model (if lastmove (mkModel prevmodel roundnr lastplayed) prevmodel)]
-    {:curplay (playAgainst model) :nextstrat (partial ficticious-play model)}
-    )
-  )
-
 (defn other-player-move [lastmove]
   (let [{:keys [player-name]} settings
         otherplayer (vals (dissoc lastmove (keyword player-name)))
@@ -58,6 +51,14 @@
     (:value (first otherplayer))
     )
   )
+
+(defn ficticious-play [prevmodel, roundnr, lastmove]
+  (let [ lastplayed (keyword (other-player-move lastmove))
+        model (if lastmove (mkModel prevmodel roundnr lastplayed) prevmodel)]
+    {:curplay (playAgainst model) :nextstrat (partial ficticious-play model)}
+    )
+  )
+
 
 (defn beat-last [roundnr, lastmove] ;; Gauranteed winning, rock beats everyone
   (if lastmove
@@ -134,8 +135,7 @@
     )
   )
 
-(def port (:port settings))
-(jet/run-jetty #'handler {:port port :join? false})
+(jet/run-jetty #'handler {:port (long (:port settings)) :join? false})
 
 (def ficticious-ini (partial ficticious-play
                              {:rock 0.334, :scissors 0.333, :paper 0.333}))
@@ -145,9 +145,11 @@
               calback-uri]} settings]
   (def reqres
     (post "hello" {:game          {:name            "rps"
-                                   :connectionToken connection}
+                                   :connectionToken connection
+                                   :totalRounds 30
+                                   }
                    :playerName    player-name
                    :eventCallback calback-uri}))
   (let [body (json/parse-string (:body reqres) true)]
     (reset! ids (merge body
-                       {:strat always-rock}))))
+                       {:strat ficticious-ini}))))
