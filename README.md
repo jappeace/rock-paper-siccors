@@ -19,12 +19,15 @@ This bot implements:
 + ficticious: Make a probabilistic model of the oponent moves and play against that model.
   Eg start with {:rock 33%, :paper 33% :scissors 34%} oponent plays :rock, {:rock 100%, :paper 0%, :scissors 0%}, openent plays scissors {:rock 50%, :paper 0%, :scissors 50%}.
 
-## Usage
-Nix shell will pull in lein in whatever version I used.
-It also makes ngork available.
+# Usage
+Enter a nix-shell, start a lein repl.
+Use cider-connect in emacs.
 
-C-c in emacs on functions appears to do things
+C-c C-k in emacs makes it eval everything.
+C-c C-c makes it eval particular functions.
 
-## License
+The nix shell also makes ngrok available which can be used for the callback http server.
+
+# License
 
 MIT: Do whatever the fuck you want just don't blame me.
