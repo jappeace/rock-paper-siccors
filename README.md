@@ -29,5 +29,4 @@ C-c C-c makes it eval particular functions.
 The nix shell also makes ngrok available which can be used for the callback http server.
 
 # License
-
-MIT: Do whatever the fuck you want just don't blame me.
+MIT: Do whatever you want, just don't blame me.
