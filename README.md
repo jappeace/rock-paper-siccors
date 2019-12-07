@@ -10,8 +10,14 @@ It was built on saturday exploration day for jappie
 his streams where the clojure langauge was being explored
 . In line with showing off some game theory.
 
-This is a work in progress.
-I at least want to implement ficticious play and finish up beat last.
+This bot implements:
+
++ always-rock: Will always play paper.
++ random: A 'random' move.
++ beat-last: Play the move whatever beats the previous move from the opponent.
+  If the openent played rock last move the current move will be paper.
++ ficticious: Make a probabilistic model of the oponent moves and play against that model.
+  Eg start with {:rock 33%, :paper 33% :scissors 34%} oponent plays :rock, {:rock 100%, :paper 0%, :scissors 0%}, openent plays scissors {:rock 50%, :paper 0%, :scissors 50%}.
 
 ## Usage
 Nix shell will pull in lein in whatever version I used.
