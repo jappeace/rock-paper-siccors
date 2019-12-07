@@ -1,6 +1,7 @@
-[![https://jappieklooster.nl](https://img.shields.io/badge/blog-jappieklooster.nl-lightgrey?style=for-the-badge)](https://jappieklooster.nl/tag/haskell.html)
-[![Jappiejappie](https://img.shields.io/badge/twitch.tv-jappiejappie-purple?logo=twitch&style=for-the-badge)](https://www.twitch.tv/jappiejappie)
-[![Jappiejappie](https://img.shields.io/badge/youtube-jappieklooster-red?logo=youtube&style=for-the-badge)](https://www.youtube.com/channel/UCQxmXSQEYyCeBC6urMWRPVw)
+[![https://jappieklooster.nl](https://img.shields.io/badge/blog-jappieklooster.nl-lightgrey)](https://jappieklooster.nl/tag/haskell.html)
+[![Jappiejappie](https://img.shields.io/badge/twitch.tv-jappiejappie-purple?logo=twitch)](https://www.twitch.tv/jappiejappie)
+[![Jappiejappie](https://img.shields.io/badge/youtube-jappieklooster-red?logo=youtube)](https://www.youtube.com/channel/UCQxmXSQEYyCeBC6urMWRPVw)
+[![Paren Xkcb](https://img.shields.io/badge/%28-%20%20%20-red.svg)](https://xkcd.com/859)
 
 This is a bot that will play rock paper siccors
 games according to this [protocol](https://app.swaggerhub.com/apis/Szetty/BotServer/1.0.0#/).
